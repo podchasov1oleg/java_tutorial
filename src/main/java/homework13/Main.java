@@ -14,6 +14,7 @@ public class Main {
         }
 
         Thread[] threads = new Thread[cars.length];
+
         for (int i = 0; i < cars.length; i++) {
             threads[i] = new Thread(cars[i]);
         }

@@ -2,6 +2,7 @@ package homework13;
 
 public class Monitor {
     private Car[] cars;
+    private boolean beginAnnounced = false;
 
     public Monitor(Car[] cars) {
         this.cars = cars;
@@ -14,20 +15,21 @@ public class Monitor {
             allReady = car.isReady() && allReady;
         }
 
-        if (allReady) System.out.println("ANNOUNCEMENT >>> Race begin!");
-
+        if (allReady && !this.beginAnnounced) {
+            System.out.println("ANNOUNCEMENT >>> Race begin!");
+            this.notifyAll();
+            this.beginAnnounced = true;
+        }
         return allReady;
     }
-    
+
     public void checkForWinner(Car car) {
-        boolean noWinner = true;
+        int finishedCnt = 0;
 
         for (Car carElement : cars) {
-            noWinner = !carElement.isFinished() && noWinner;
+            if (carElement.isFinished()) finishedCnt++;
         }
 
-        if (noWinner) System.out.println(car.getName() + " - WINS");
-
-        car.setFinished(true);
+        if (finishedCnt == 1) System.out.println(car.getName() + " - WINS");
     }
 }
